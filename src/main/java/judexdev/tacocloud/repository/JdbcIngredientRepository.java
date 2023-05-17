@@ -1,6 +1,7 @@
 package judexdev.tacocloud.repository;
 
 import judexdev.tacocloud.domain.Ingredient;
+import lombok.NonNull;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -37,7 +38,7 @@ public class JdbcIngredientRepository implements IngredientRepository {
     }
 
     @Override
-    public Ingredient save(Ingredient ingredient) {
+    public Ingredient save(@NonNull Ingredient ingredient) {
         jdbcTemplate.update("insert into Ingredient (id, name, type) values (?, ?, ?)",
                 ingredient.id(),
                 ingredient.name(),
