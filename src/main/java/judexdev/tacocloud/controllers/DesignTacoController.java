@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import judexdev.tacocloud.domain.Ingredient;
 import judexdev.tacocloud.domain.Taco;
 import judexdev.tacocloud.domain.TacoOrder;
-import judexdev.tacocloud.repository.JdbcIngredientRepository;
+import judexdev.tacocloud.repository.IngredientRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,26 +20,13 @@ import java.util.stream.StreamSupport;
 @SessionAttributes("tacoOrder")
 public class DesignTacoController {
 
-    private final JdbcIngredientRepository ingredientsRepo;
-    public DesignTacoController(JdbcIngredientRepository jdbcIngredientRepository) {
-        this.ingredientsRepo = jdbcIngredientRepository;
+    private final IngredientRepository ingredientsRepo;
+    public DesignTacoController(IngredientRepository IngredientRepository) {
+        this.ingredientsRepo = IngredientRepository;
     }
 
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
-//        List<Ingredient> ingredients = Arrays.asList(
-//                new Ingredient("FLTO", "Flour Tortilla", Ingredient.Type.WRAP),
-//                new Ingredient("COTO", "Corn Tortilla", Ingredient.Type.WRAP),
-//                new Ingredient("GRBF", "Ground Beef", Ingredient.Type.PROTEIN),
-//                new Ingredient("CARN", "Carnitas", Ingredient.Type.PROTEIN),
-//                new Ingredient("TMTO", "Diced Tomatoes", Ingredient.Type.PROTEIN),
-//                new Ingredient("LETC", "Lettuce", Ingredient.Type.VEGGIES),
-//                new Ingredient("CHED", "Cheddar", Ingredient.Type.CHEESE),
-//                new Ingredient("JACK", "Monterrey Jack", Ingredient.Type.CHEESE),
-//                new Ingredient("SLSA", "Salsa", Ingredient.Type.SAUCE),
-//                new Ingredient("SRCR", "Sour Cream", Ingredient.Type.SAUCE)
-//        );
-
         Iterable<Ingredient> ingredients = ingredientsRepo.findAll();
 
         Ingredient.Type[] types = Ingredient.Type.values();
@@ -67,7 +54,7 @@ public class DesignTacoController {
     private Iterable<Ingredient> filterByType(
             Iterable<Ingredient> ingredients, Ingredient.Type type) {
         return StreamSupport.stream(ingredients.spliterator(), false)
-                .filter(x -> x.type().equals(type))
+                .filter(x -> x.getType().equals(type))
                 .collect(Collectors.toList());
     }
 

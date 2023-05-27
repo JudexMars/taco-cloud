@@ -6,16 +6,14 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import javax.sql.DataSource;
-import java.net.URISyntaxException;
 
 @Configuration
 public class SpringJdbcConfig {
 
     @Bean
-    public DataSource dataSource() throws URISyntaxException {
+    public DataSource dataSource() {
         return new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("db/schema.sql")
-                .addScript("db/data.sql").build();
+                .addScript("db/schema.sql").build();
     }
 }
