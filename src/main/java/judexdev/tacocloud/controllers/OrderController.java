@@ -28,6 +28,7 @@ public class OrderController {
 
     @GetMapping("/current")
     public String orderForm() {
+        log.info(orderRepo.readOrdersDeliveredToSeattle().toString());
         return "orderForm";
     }
 
