@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  database:
+    image: cassandra:latest
+    ports:
+      - "9042:9042"
+    networks:
+      - cassandra-net
+    volumes:
+      - ./cql-scripts:/cql-scripts
+    command: ["cassandra", "-f"]
+networks:
+  cassandra-net:
+    driver: bridge

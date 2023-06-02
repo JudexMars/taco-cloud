@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import judexdev.tacocloud.domain.Ingredient;
 import judexdev.tacocloud.domain.Taco;
 import judexdev.tacocloud.domain.TacoOrder;
+import judexdev.tacocloud.domain.TacoUDRUtils;
 import judexdev.tacocloud.repository.IngredientRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -38,7 +39,9 @@ public class DesignTacoController {
 
     @ModelAttribute(name = "tacoOrder")
     public TacoOrder order() {
-        return new TacoOrder();
+        TacoOrder order = new TacoOrder();
+        log.info("Created order: " + order);
+        return order;
     }
 
     @ModelAttribute(name = "taco")
@@ -61,7 +64,7 @@ public class DesignTacoController {
     @PostMapping
     public String processTaco(@Valid Taco taco, Errors errors, @ModelAttribute TacoOrder tacoOrder) {
         if (errors.hasErrors()) return "design";
-        tacoOrder.addTaco(taco);
+        tacoOrder.addTaco(TacoUDRUtils.toTacoUDT(taco));
         log.info("Processing taco: {}", taco);
 
         return "redirect:/orders/current";

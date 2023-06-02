@@ -1,63 +1,63 @@
 package judexdev.tacocloud.domain;
 
-import jakarta.persistence.*;
+import com.datastax.oss.driver.api.core.uuid.Uuids;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import org.hibernate.validator.constraints.CreditCardNumber;
+import org.springframework.data.cassandra.core.cql.Ordering;
+import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
+import org.springframework.data.cassandra.core.mapping.Column;
+import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
+import org.springframework.data.cassandra.core.mapping.Table;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Data
-@Entity
+@Table("orders")
 public class TacoOrder {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private static final Long serialVersionUID = 1L;
 
+    @PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED)
+    private UUID id = Uuids.timeBased();
+
+    @PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING)
     private Date placedAt;
 
-    @Column(length = 50)
     @NotBlank(message="Delivery name is required")
     private String deliveryName;
 
-    @Column(length = 50)
     @NotBlank(message="Street is required")
     private String deliveryStreet;
 
-    @Column(length = 50)
     @NotBlank(message="City is required")
     private String deliveryCity;
 
-    @Column(length = 2)
     @NotBlank(message="State is required")
     private String deliveryState;
 
-    @Column(length = 10)
     @NotBlank(message="Zip is required")
     private String deliveryZip;
 
-    @Column(length = 16)
     @CreditCardNumber(message="Not a valid credit card number")
     private String ccNumber;
 
-    @Column(length = 5)
     @Pattern(regexp = "^(0[1-9]|1[0-2])(/)([2-9]\\d)$",
     message = "Must be formatted MM/YY")
     private String ccExpiration;
 
-    @Column(length = 3)
     @Digits(integer=3, fraction=0, message="Invalid CVV")
     private String ccCVV;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Taco> tacos = new ArrayList<>();
+    @Column("tacos")
+    private List<TacoUDT> tacos = new ArrayList<>();
 
-    public void addTaco(Taco taco) {
+    public void addTaco(TacoUDT taco) {
         this.tacos.add(taco);
     }
 }
