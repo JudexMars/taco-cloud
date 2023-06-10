@@ -1,16 +1,16 @@
 package judexdev.tacocloud.domain;
 
-import org.springframework.data.cassandra.core.mapping.Table;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Table("ingredients")
+@Document(collection = "ingredients")
 @AllArgsConstructor
 @NoArgsConstructor(access=AccessLevel.PROTECTED, force=true)
 public class Ingredient {
 
-    @PrimaryKey
+    @Id
     private String id;
     private String name;
     private Type type;

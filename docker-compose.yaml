@@ -1,14 +1,14 @@
 version: "3.8"
 services:
   database:
-    image: cassandra:latest
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: Dio
+      MONGO_INITDB_ROOT_PASSWORD: IfT3Kop!2
     ports:
-      - "9042:9042"
+      - "27017:27017"
     networks:
-      - cassandra-net
-    volumes:
-      - ./cql-scripts:/cql-scripts
-    command: ["cassandra", "-f"]
+      - mongo-net
 networks:
-  cassandra-net:
+  mongo-net:
     driver: bridge

@@ -1,15 +1,14 @@
 package judexdev.tacocloud.repository;
 
 import judexdev.tacocloud.domain.TacoOrder;
-import org.springframework.data.cassandra.repository.Query;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 public interface OrderRepository
-        extends CrudRepository<TacoOrder, UUID> {
+        extends CrudRepository<TacoOrder, String> {
 
     /*
     This is a magnificent example of Spring Data magic! The framework reads the method's name and generates
@@ -27,6 +26,6 @@ public interface OrderRepository
      */
     List<TacoOrder> readTacoOrderByDeliveryZipAndPlacedAtBetween(String deliveryZip, Date startDate, Date endDate);
 
-    @Query("SELECT * FROM tacocloud.orders WHERE deliveryCity = 'Seattle' ALLOW FILTERING;")
+    @Query("SELECT * FROM tacoclouddb.orders WHERE deliveryCity = 'Seattle'")
     List<TacoOrder> readOrdersDeliveredToSeattle();
 }
