@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    include: 'prod'
   thymeleaf:
     cache: false
   datasource:
@@ -12,12 +14,3 @@ spring:
       username: Dio
       password: IfT3Kop!2
       authentication-database: admin
-  security:
-    oauth2:
-      client:
-        registration:
-          github:
-            client-id: 96a326b6a799970716a3
-            client-secret: e57272daf6f47c55b3fd08024b9d0796bc83c2d0
-            scope:
-              - user
