@@ -1,10 +1,15 @@
 package judexdev.tacocloud.controllers;
 
 import jakarta.validation.Valid;
+import judexdev.tacocloud.OrderProps;
 import judexdev.tacocloud.domain.TacoOrder;
+import judexdev.tacocloud.domain.User;
 import judexdev.tacocloud.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import java.awt.print.Pageable;
 import java.util.Date;
 
 @Slf4j
@@ -21,9 +27,11 @@ import java.util.Date;
 public class OrderController {
 
     private final OrderRepository orderRepo;
+    private final OrderProps props;
 
-    public OrderController(OrderRepository orderRepo) {
+    public OrderController(OrderRepository orderRepo, OrderProps props) {
         this.orderRepo = orderRepo;
+        this.props = props;
     }
 
     @GetMapping("/current")
@@ -33,13 +41,22 @@ public class OrderController {
     }
 
     @PostMapping
-    public String processOrder(@Valid TacoOrder order, Errors errors, SessionStatus sessionStatus) {
+    public String processOrder(@Valid TacoOrder order, Errors errors,
+                               SessionStatus sessionStatus, @AuthenticationPrincipal User user) {
         if (errors.hasErrors()) return "orderForm";
         order.setPlacedAt(new Date());
+        order.setUser(user);
         orderRepo.save(order);
         log.info("Order submitted: {}", order);
         sessionStatus.setComplete();
 
         return "redirect:/";
+    }
+
+    public String ordersForUser(
+            @AuthenticationPrincipal User user, Model model) {
+        Pageable pageable = (Pageable) PageRequest.of(0, props.getPageSize());
+        model.addAttribute("orders", orderRepo.findByUserOrderByPlacedAtDesc(user, pageable));
+        return "orderList";
     }
 }

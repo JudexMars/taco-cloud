@@ -14,3 +14,6 @@ spring:
       username: Dio
       password: IfT3Kop!2
       authentication-database: admin
+taco:
+  orders:
+    pageSize: 10

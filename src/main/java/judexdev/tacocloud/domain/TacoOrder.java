@@ -23,6 +23,8 @@ public class TacoOrder {
 
     private Date placedAt;
 
+    private User user;
+
     @NotBlank(message="Delivery name is required")
     private String deliveryName;
 

@@ -1,9 +1,11 @@
 package judexdev.tacocloud.repository;
 
 import judexdev.tacocloud.domain.TacoOrder;
+import judexdev.tacocloud.domain.User;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import java.awt.print.Pageable;
 import java.util.Date;
 import java.util.List;
 
@@ -28,4 +30,6 @@ public interface OrderRepository
 
     @Query("SELECT * FROM tacoclouddb.orders WHERE deliveryCity = 'Seattle'")
     List<TacoOrder> readOrdersDeliveredToSeattle();
+
+    List<TacoOrder> findByUserOrderByPlacedAtDesc(User user, Pageable pageable);
 }
