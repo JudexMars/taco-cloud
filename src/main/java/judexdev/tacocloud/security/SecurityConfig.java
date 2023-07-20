@@ -43,6 +43,9 @@ public class SecurityConfig {
                 .and()
                 .logout()
                 .and()
+                .csrf()
+                .ignoringRequestMatchers("/api/**")
+                .and()
                 .build();
     }
 }
