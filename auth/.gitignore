@@ -35,6 +35,3 @@ out/
 
 ### VS Code ###
 .vscode/
-
-### Cofidential ###
-/web/src/main/resources/application-prod.yml

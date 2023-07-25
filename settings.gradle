@@ -1,1 +1,5 @@
 rootProject.name = 'taco-cloud'
+
+include 'auth'
+include 'web'
+
