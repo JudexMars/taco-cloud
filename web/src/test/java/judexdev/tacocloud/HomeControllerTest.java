@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest
 public class HomeControllerTest {
 
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private MockMvc mockMvc;
 
