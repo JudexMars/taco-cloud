@@ -16,6 +16,11 @@ spring:
       authentication-database: admin
     rest:
       base-path: /data-api
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:9000/oauth2/jwks
 taco:
   orders:
     pageSize: 10

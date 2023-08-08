@@ -2,4 +2,4 @@ rootProject.name = 'taco-cloud'
 
 include 'auth'
 include 'web'
-
+include 'admin-client'

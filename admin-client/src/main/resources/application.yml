@@ -1,0 +1,36 @@
+logging:
+  level:
+    org.springframework.web: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+server:
+  port: 9090
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          taco-admin-client:
+            provider: tacocloud
+            client-id: taco-admin-client
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://127.0.0.1:9090/login/oauth2/code/{registrationId}"
+            scope:
+              - writeIngredients
+              - deleteIngredients
+              - createOrders
+              - deleteOrders
+              - editOrders
+              - createTacos
+              - deleteTacos
+              - editTacos
+              - openid
+        provider:
+          tacocloud:
+            issuer-uri: http://127.0.0.1:9000
+            authorization-uri: http://127.0.0.1:9000/oauth2/authorize
+            token-uri: http://127.0.0.1:9000/oauth2/token
+            jwk-set-uri: http://127.0.0.1:9000/oauth2/jwks
+            user-info-uri: http://127.0.0.1:9000/userinfo
+            user-name-attribute: sub
