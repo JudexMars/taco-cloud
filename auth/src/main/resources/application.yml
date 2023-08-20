@@ -6,13 +6,11 @@ spring:
     name: "AuthDb"
     username: "admin"
     password: "admin"
-  h2:
-    console:
-      enabled: true
-  jpa:
-    generate-ddl: true
 management:
   endpoints:
     web:
       exposure:
         include: '*'
+logging:
+  level:
+    org.springframework.security: trace
